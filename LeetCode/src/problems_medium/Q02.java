@@ -6,7 +6,7 @@ public class Q02 {
 	//add two number
 	public static void main(String[] args) {
 		//ListNode l1 = [1,2,4];
-		ListNode l1 = new ListNode(2, new ListNode(4, new ListNode(3)));
+		ListNode l1 = new ListNode(3, new ListNode(4, new ListNode(3,new ListNode(3))));
 		ListNode l2 = new ListNode(8, new ListNode(4, new ListNode(3)));
 		System.out.println(addTwoNumbers(l1,l2));
 	}
@@ -24,21 +24,30 @@ public class Q02 {
 			
 			ListNode cur = new ListNode();
 			int tempVal = AddOne ? 1: 0;
-			if((cur1.val + cur2.val + tempVal) > 10 ) {
-				cur.val = (cur1.val + cur2.val + tempVal) % 10;
+			int cur1Val = (cur1 != null)?cur1.val:0;
+			int cur2Val = (cur2 != null)?cur2.val:0;
+			
+			if((cur1Val + cur2Val + tempVal) >= 10 ) {
+				cur.val = (cur1Val + cur2Val + tempVal) % 10;
 				//下一個要進位
 				AddOne = true;
 			}else {
-				cur.val = cur1.val + cur2.val + tempVal;
+				cur.val = cur1Val + cur2Val + tempVal;
 				AddOne = false;
 			}
 			newNode.next = cur;
 			newNode = newNode.next;
 			
-			cur1 = (cur1.next != null)?cur1.next:null;
-			cur2 = (cur2.next != null)?cur2.next:null;
+			if(cur1 != null) {
+				cur1 = (cur1.next != null)?cur1.next:null;
+			}
+			if(cur2 != null) {
+				cur2 = (cur2.next != null)?cur2.next:null;
+			}
+			
 		}
 		
+		if(AddOne) newNode.next = new ListNode(1);
 		
         return returnNode.next.next;
     }
