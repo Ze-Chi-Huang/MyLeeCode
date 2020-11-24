@@ -1,4 +1,4 @@
-package problems;
+package problems_easy;
 
 public class Q27 {
 
