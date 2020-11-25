@@ -1,5 +1,6 @@
 package problems_medium;
 
+import java.math.BigDecimal;
 
 public class Q02 {
 
@@ -11,11 +12,40 @@ public class Q02 {
 		System.out.println(addTwoNumbers(l1,l2));
 	}
 	
+	//精簡寫法
+	public static ListNode addTwoNumbers2(ListNode l1, ListNode l2) {
+		
+		ListNode dummy = new ListNode(0);
+		int sum = 0;
+		ListNode cur = dummy;
+		ListNode p1=l1, p2=l2;
+		
+		while(p1 != null || p2 != null) {
+			
+			if(p1 != null) {
+				sum += p1.val;
+				p1 = p1.next;
+			}
+			if(p2 != null) {
+				sum += p2.val;
+				p2 = p2.next;
+			}
+			cur.next = new ListNode(sum % 10);
+			sum /= 10; //進位，
+			cur = cur.next;
+		}
+		
+		if(sum == 1) {
+			cur.next = new ListNode(1);
+		}
+		
+		return dummy.next;
+	}
+	
 	public static ListNode addTwoNumbers(ListNode l1, ListNode l2) {
 		//思考 : 從第一個node 開始加，若大於10 則 下一個node 進位
-		ListNode returnNode = new ListNode();
-		ListNode newNode = new ListNode();
-		returnNode.next = newNode;
+		ListNode dummyNode = new ListNode();
+		ListNode newNode = dummyNode;
 		ListNode cur1 = l1;
 		ListNode cur2 = l2;
 		
@@ -49,7 +79,7 @@ public class Q02 {
 		
 		if(AddOne) newNode.next = new ListNode(1);
 		
-        return returnNode.next.next;
+        return dummyNode.next;
     }
 }
 
