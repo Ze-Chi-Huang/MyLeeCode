@@ -12,7 +12,7 @@ public class Q02 {
 		System.out.println(addTwoNumbers(l1,l2));
 	}
 	
-	//精簡寫法
+	//精簡寫法 : += /= 的使用
 	public static ListNode addTwoNumbers2(ListNode l1, ListNode l2) {
 		
 		ListNode dummy = new ListNode(0);
@@ -45,28 +45,28 @@ public class Q02 {
 	public static ListNode addTwoNumbers(ListNode l1, ListNode l2) {
 		//思考 : 從第一個node 開始加，若大於10 則 下一個node 進位
 		ListNode dummyNode = new ListNode();
-		ListNode newNode = dummyNode;
+		ListNode cur = dummyNode;
 		ListNode cur1 = l1;
 		ListNode cur2 = l2;
 		
 		boolean AddOne = false;
 		while(cur1 != null || cur2 != null) { //只要有一個不為null，就要做
 			
-			ListNode cur = new ListNode();
+			ListNode next = new ListNode();
 			int tempVal = AddOne ? 1: 0;
 			int cur1Val = (cur1 != null)?cur1.val:0;
 			int cur2Val = (cur2 != null)?cur2.val:0;
 			
 			if((cur1Val + cur2Val + tempVal) >= 10 ) {
-				cur.val = (cur1Val + cur2Val + tempVal) % 10;
+				next.val = (cur1Val + cur2Val + tempVal) % 10;
 				//下一個要進位
 				AddOne = true;
 			}else {
-				cur.val = cur1Val + cur2Val + tempVal;
+				next.val = cur1Val + cur2Val + tempVal;
 				AddOne = false;
 			}
-			newNode.next = cur;
-			newNode = newNode.next;
+			cur.next = next;
+			cur = cur.next;
 			
 			if(cur1 != null) {
 				cur1 = (cur1.next != null)?cur1.next:null;
@@ -77,7 +77,7 @@ public class Q02 {
 			
 		}
 		
-		if(AddOne) newNode.next = new ListNode(1);
+		if(AddOne) cur.next = new ListNode(1);
 		
         return dummyNode.next;
     }
