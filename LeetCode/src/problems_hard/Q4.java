@@ -1,39 +1,68 @@
 package problems_hard;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
 
 //Given two sorted arrays nums1 and nums2 of size m and n respectively, 
 //return the median of the two sorted arrays.
 public class Q4 {
 	
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
+		int[] nums1 = {1,3,4,8,12};
+		int[] nums2 = {2,5,7,10};
+		System.out.println(findMedianSortedArrays(nums1,nums2));
+		
 	}
 
-    public double findMedianSortedArrays(int[] nums1, int[] nums2) {
+    public static double findMedianSortedArrays(int[] nums1, int[] nums2) {
     	
+    	//Step1 : 先合併
     	int[] mergeArr = mergeArr(nums1,nums2);
     	
-		return 0;
+    	//Step2 : 再找中位數
+    	if(mergeArr.length %2 == 0) {
+    		
+    		return (mergeArr[mergeArr.length /2] + mergeArr[mergeArr.length /2 -1]) /2.0;
+    		
+    	}else {
+    		return mergeArr[mergeArr.length/2];
+    	}
+    	
     }
 
-	private int[] mergeArr(int[] nums1, int[] nums2) {
+	private static int[] mergeArr(int[] A, int[] B) {
 		
-		List<Integer> list = new LinkedList<Integer>();
+		//思考 : 
+		//1,2,4,8
+		//3,5,7,10
+		//可以用兩個指針，去比大小，誰小就放進去新的陣列
+		int[] nums = new int[A.length + B.length];
+		int i=0,j=0,k=0;
 		
-		for(int i=0; i<nums1.length; i++) {
-			//nums1[i]
-			for(int j=0; j<nums2.length;j++) {
+		while(i<A.length && j <B.length) {
+			if(A[i] < B[j]) {
 				
-				//如果nums1[i] 比 nums2[j] 小，就比nums2[j+1]
+				nums[k] = A[i];
+				i++;
 				
+			}else {
+				nums[k] = B[j];
+				j++;
 			}
+			k++;
 		}
 		
-		return null;
+		//剩下的指針全寫入
+		while(i<A.length) {
+			nums[k] = A[i];
+			k++;
+			i++;
+		}
+		while(j<B.length) {
+			nums[k] = B[j];
+			k++;
+			j++;
+		}
+		
+		return nums;
 	}
     
 }
