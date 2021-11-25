@@ -20,7 +20,37 @@ public class Q18 {
 		int[] nums =  {10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,20,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,30,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,40,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,50,60,60,60,60,60,60,60,60,60,60,60,60,60,60,60,60,60,60,60,60,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,70,80,80,80,80,80,80,80,80,80,80,80,80,80,80,80,80,80,80,80,80,90,90,90,90,90,90,90,90,90,90,90,90,90,90,90,90,90,90,90,90};
 		int target = 200;
 		
-		System.out.println(fourSum(nums, target));
+		System.out.println(fourSum2(nums, target));
+	}
+	
+	//改進寫法 (把重複的提前挑掉 (而不是加入後再剔除))
+	public static List<List<Integer>> fourSum2(int[] nums, int target) {
+		List<List<Integer>> answer = new ArrayList<List<Integer>>();
+		// 思考 : 改用排序過後的陣列，把重複的提前挑掉 (而不是加入後再剔除)
+		int length = nums.length;
+		Arrays.sort(nums);
+		for(int a = 0; a < length - 3; a++) { //-3: 最後一定要保留四個數值
+			if(a > 0 && nums[a] == nums[a-1] ) continue; //一定要取到a = length - 4 這個值，所以用nums[a-1]
+			
+			for(int b = a + 1; b < length - 2; b++) {
+				if(b > (a + 1) && nums[b] == nums[b-1]) continue;
+				
+				for (int c = b + 1; c < length -1 ; c++) {
+					if(c > (b + 1) &&  nums[c] == nums[c-1]) continue;
+					
+					for (int d = c + 1; d < length; d++) {
+						if(d > (c + 1) &&  nums[d] == nums[d-1]) continue;
+//						System.out.println(a + " " + b + " " + c + " " + d);
+						if((nums[a] + nums[b] + nums[c] + nums[d]) == target) {
+							List<Integer> list = Arrays.asList(new Integer[]{nums[a], nums[b], nums[c], nums[d]});
+							answer.add(list);
+						}
+					}
+				}
+			}
+		}
+
+		return answer;
 	}
 
 	public static List<List<Integer>> fourSum(int[] nums, int target) {
